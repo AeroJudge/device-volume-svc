@@ -1,0 +1,26 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            volume.py
+            volume.service
+            volume-svc_update.sh
+          tag_name: ${{ github.ref_name }}
+          generate_release_notes: true
