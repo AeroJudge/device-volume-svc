@@ -1,26 +1,54 @@
+# Publish the volume/audio package; this does not install or update judge devices.
 name: Create Release
 
+# Push a new vGENERATION.RELEASE tag after merging the release changes.
+# For example, v2.1 must match version "2.1" in package.json.
 on:
   push:
-    tags:
-      - 'v*'
+    tags: ['v2.*']
 
 jobs:
   create-release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            volume.py
-            volume.service
-            volume-svc_update.sh
-          tag_name: ${{ github.ref_name }}
-          generate_release_notes: true
+
+      - name: Check source and version
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          version=$(jq -er '.version | select(type == "string" and test("^2[.](0|[1-9][0-9]*)$"))' package.json)
+          test "$RELEASE_TAG" = "v$version"
+          sh -n audio_hardware.sh
+          python3 -m py_compile volume.py
+
+      - name: Create package
+        # Keep volume_service/ at the archive root for existing installation paths.
+        run: |
+          set -euo pipefail
+          mkdir -p dist/volume_service
+          for file in volume.py volume.service audio_hardware.sh audio-hardware.service tone-up.wav tone-down.wav README.md package.json; do
+            test -s "$file"
+            cp "$file" dist/volume_service/
+          done
+          chmod 644 dist/volume_service/*
+          chmod 755 dist/volume_service/volume.py dist/volume_service/audio_hardware.sh
+          cp package.json dist/
+          cd dist
+          zip -qr volume_service.zip volume_service/
+          sha256sum volume_service.zip package.json > SHA256SUMS
+
+      - name: Publish release
+        # Create a new release; fail rather than replace an existing release's assets.
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$RELEASE_TAG" --verify-tag \
+            --title "$RELEASE_TAG" --generate-notes \
+            dist/volume_service.zip dist/package.json dist/SHA256SUMS
