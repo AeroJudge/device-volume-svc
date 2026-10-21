@@ -24,7 +24,7 @@ and dependencies. Legacy code and its updater remain in `v1.0` history.
 3. The [workflow](.github/workflows/release.yml) checks source syntax and tag
    agreement, then publishes `volume_service.zip`, `package.json` and `SHA256SUMS`.
 
-The ZIP contains `volume_service/` with six runtime files, this README and metadata.
+The ZIP contains `volume_service/` with runtime files and metadata.
 Keep packaging to standard ZIP/checksum commands and preserve released tags/assets.
 No separate builder or changelog is needed; the app retains its own changelog.
 During migration, compare runtime changes with the app's `volume_service/`.

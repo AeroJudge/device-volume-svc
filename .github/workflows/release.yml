@@ -31,7 +31,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p dist/volume_service
-          for file in volume.py volume.service audio_hardware.sh audio-hardware.service tone-up.wav tone-down.wav README.md package.json; do
+          for file in volume.py volume.service audio_hardware.sh audio-hardware.service tone-up.wav tone-down.wav package.json; do
             test -s "$file"
             cp "$file" dist/volume_service/
           done
