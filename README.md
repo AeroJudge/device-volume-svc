@@ -9,7 +9,8 @@ the separate v2 package with the same runtime files.
 | Version | Supported hardware | Status and instructions |
 |---|---|---|
 | [v1.0](https://github.com/AeroJudge/device-volume-svc/releases/tag/v1.0) | Legacy rotary volume knob; full PCB range unconfirmed | Preserved source; [historical README](https://github.com/AeroJudge/device-volume-svc/blob/v1.0/README.md) |
-| [v2.0](https://github.com/AeroJudge/device-volume-svc/releases/tag/v2.0) | PCB 3.60 and 3.61, with the matching board configuration | Current release; [version instructions](https://github.com/AeroJudge/device-volume-svc/blob/v2.0/README.md) |
+| [v2.0](https://github.com/AeroJudge/device-volume-svc/releases/tag/v2.0) | PCB 3.60 and 3.61, with the matching board configuration | Previous release; [version instructions](https://github.com/AeroJudge/device-volume-svc/blob/v2.0/README.md) |
+| [v2.1](https://github.com/AeroJudge/device-volume-svc/releases/tag/v2.1) | PCB 3.60 and 3.61, with the matching board configuration | Current release, same runtime files as v2.0; the archive no longer includes this README. [Version instructions](https://github.com/AeroJudge/device-volume-svc/blob/v2.1/README.md) |
 
 Use `vGENERATION.RELEASE`: v1 is the legacy rotary stack; v2 is the current
 stack. Increment the release number for each change: v2.0, v2.1, v2.2.
