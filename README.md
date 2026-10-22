@@ -1,8 +1,8 @@
 # AeroJudge Device Volume Service
 
-Volume/audio packages for AeroJudge judge devices. During migration, the app
-repository still supplies production setup and packages; this repository holds
-the separate v2 package with the same runtime files.
+Volume/audio packages for AeroJudge judge devices. Device setup and updates
+consume this package from its latest release. Existing volume installations
+are preserved during app updates.
 
 ## Versions and hardware
 
@@ -28,12 +28,12 @@ and dependencies. Legacy code and its updater remain in `v1.0` history.
 The ZIP contains `volume_service/` with runtime files and metadata.
 Keep packaging to standard ZIP/checksum commands and preserve released tags/assets.
 No separate builder or changelog is needed; the app retains its own changelog.
-During migration, compare runtime changes with the app's `volume_service/`.
 
 ## Installation essentials
 
-Setup/update scripts will consume the published files. Publishing does not update
-devices or setup pins. Use the board's matching boot configuration and dependencies:
+Setup/update scripts consume the published files. Publishing alone does not
+update installed devices. Use the board's matching boot configuration and
+dependencies:
 
 ```sh
 sudo apt install alsa-utils python3-evdev evtest
@@ -52,8 +52,9 @@ replace an existing volume installation. The controls start at 80%, adjust withi
 
 Verify checksums when downloading; they do not establish hardware compatibility.
 Keep previous packages and matching boot configurations for recovery. Rolling
-back the app JAR does not restore the audio stack. No new physical-device testing
-is claimed by this repository migration.
+back the app JAR does not restore the audio stack. Fresh installation of v2.1
+and audio/volume operation passed on PCB 3.61 device DPG-131 on 2026-10-22.
+This does not establish new PCB 3.60 or legacy coverage.
 
 ## Diagnostics
 
